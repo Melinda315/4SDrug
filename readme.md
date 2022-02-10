@@ -28,7 +28,7 @@ We provide a dataset MIMIC3 , which contains:
 
 ### utils
 
-Data input and preprocessing(```dataaset.py```)
+Data input and preprocessing(```dataset.py```)
 
 ### eval
 
