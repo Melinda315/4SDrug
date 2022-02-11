@@ -1,5 +1,5 @@
 # 4SDrug
-This repository contains a implementation of our "Symptom-based Set-to-set Small and SafeDrug Recommendation".
+This repository contains a implementation of our "Symptom-based Set-to-set Small and Safe Drug Recommendation".
 
 ## Environment Setup
 1. Pytorch 1.2+
