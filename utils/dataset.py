@@ -9,6 +9,11 @@ class PKLSet(object):
         self.voc_path = os.path.join('datasets', dataset + '/voc_final.pkl')
         self.ddi_adj_path = os.path.join('datasets', dataset + '/ddi_A_final.pkl')
         self.ddi_adj = dill.load(open(self.ddi_adj_path, 'rb'))
+
+        voc = dill.load(open(self.voc_path, 'rb'))
+        sym_voc, pro_voc, med_voc = voc['sym_voc'], voc['diag_voc'], voc['med_voc']
+        self.n_sym, self.n_drug = len(sym_voc.idx2word), len(med_voc.idx2word)
+
         # self.ddi_adj = 0
         self.sym_train, self.drug_train, self.data_eval = self.check_file(batch_size, dataset)
         self.sym_sets, self.drug_multihots = self.mat_train_data(dataset)
@@ -25,10 +30,6 @@ class PKLSet(object):
     def load_data(self, sym_path, drug_path):
         sym_train, drug_train = dill.load(open(sym_path, 'rb')), dill.load(open(drug_path, 'rb'))
         data_eval = dill.load(open(self.eval_path, 'rb'))
-        voc = dill.load(open(self.voc_path, 'rb'))
-        sym_voc, pro_voc, med_voc = voc['sym_voc'], voc['diag_voc'], voc['med_voc']
-
-        self.n_sym, self.n_drug = len(sym_voc.idx2word), len(med_voc.idx2word)
         print("num symptom: {}, num drug: {}".format(self.n_sym, self.n_drug))
         return sym_train, drug_train, data_eval
 
@@ -128,10 +129,10 @@ class PKLSet(object):
                 sym_train.append(syms)
                 drug_train.append(drugs)
 
-        with open(os.path.join('../datasets', '{}/sym_train_{}.pkl'.format(dataset, batch_size)), 'wb') as f:
+        with open(os.path.join('./datasets', '{}/sym_train_{}.pkl'.format(dataset, batch_size)), 'wb') as f:
             dill.dump(sym_train, f)
 
-        with open(os.path.join('../datasets', '{}/drug_train_{}.pkl'.format(dataset, batch_size)), 'wb') as f:
+        with open(os.path.join('./datasets', '{}/drug_train_{}.pkl'.format(dataset, batch_size)), 'wb') as f:
             dill.dump(drug_train, f)
 
     def find_similae_set_by_ja(self, sym_train):
