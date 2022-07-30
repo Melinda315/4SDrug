@@ -14,13 +14,12 @@ class Attention(nn.Module):
         weight = self.aggregation(x)  # [b, num_learn, 1]
         return torch.tanh(weight)
 
-    def forward(self, x, mask=None):
+    def forward(self, x, mask=None, device='cpu'):
         if mask is None:
             weight = torch.softmax(self._aggregate(x), dim=-2)
         else:
-            mask = torch.where(mask == 0, torch.tensor(-1e7).cuda(), torch.tensor(0.0).cuda())
+            mask = torch.where(mask == 0, torch.tensor(-1e7).to(device), torch.tensor(0.0).to(device))
             weight = torch.softmax(self._aggregate(x).squeeze(-1) + mask, dim=-1).float().unsqueeze(-1)
-            weight = torch.where(torch.isnan(weight), torch.tensor(0.0).cuda(), weight)
+            weight = torch.where(torch.isnan(weight), torch.tensor(0.0).to(device), weight)
         agg_embeds = torch.matmul(x.transpose(-1, -2).float(), weight).squeeze(-1)
         return agg_embeds
-
