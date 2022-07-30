@@ -54,6 +54,10 @@ class PKLSet(object):
         return sym_sets, drug_sets_multihot
 
     def gen_batch_data(self, batch_size, dataset):
+        voc = dill.load(open(self.voc_path, 'rb'))
+        sym_voc, pro_voc, med_voc = voc['sym_voc'], voc['diag_voc'], voc['med_voc']
+
+        self.n_sym, self.n_drug = len(sym_voc.idx2word), len(med_voc.idx2word)
         sym_count = self.count_sym(dataset)
         size_dict, drug_dict = {}, {}
         sym_sets, drug_sets = [], []
@@ -69,7 +73,7 @@ class PKLSet(object):
 
         for adm in data:
             syms, drugs = adm[0], adm[2]
-            drug_multihot = np.zeros(131)
+            drug_multihot = np.zeros(self.n_drug)
             drug_multihot[drugs] = 1
             if size_dict.get(len(syms)):
                 size_dict[len(syms)].append(syms)
@@ -128,10 +132,10 @@ class PKLSet(object):
                 sym_train.append(syms)
                 drug_train.append(drugs)
 
-        with open(os.path.join('../datasets', '{}/sym_train_{}.pkl'.format(dataset, batch_size)), 'wb') as f:
+        with open(os.path.join('datasets', '{}/sym_train_{}.pkl'.format(dataset, batch_size)), 'wb') as f:
             dill.dump(sym_train, f)
 
-        with open(os.path.join('../datasets', '{}/drug_train_{}.pkl'.format(dataset, batch_size)), 'wb') as f:
+        with open(os.path.join('datasets', '{}/drug_train_{}.pkl'.format(dataset, batch_size)), 'wb') as f:
             dill.dump(drug_train, f)
 
     def find_similae_set_by_ja(self, sym_train):
