@@ -10,15 +10,7 @@ This repository contains a implementation of our "4SDrug: Symptom-based Set-to-s
 
 ### data
 
-We provide a dataset MIMIC3 , which contains:
-
-- Train set, validation set and test set and each contains patient records, including symptom sets, 
-  diagnosis sets and drug sets(```data_train.pkl```, ```data_eval.pkl```, ```data_test.pkl```)
-- Train symptom sets and drug sets derived from the train set, 
-  where few sets are combined into batches and can satisfy our training requirements(```sym_train_50.pkl```, ```drug_train_50.pkl```)
-- Voc file that used to calculate the number of unique symptoms and drugs, 
-  and convert their indices into their codes(```voc_final.pkl```)
-- DDI matrix(```ddi_A_final.pkl```)
+Please download MIMIC3 from the official website.
 
 ### model
 
