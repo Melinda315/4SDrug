@@ -10,7 +10,7 @@ This repository contains a implementation of our "4SDrug: Symptom-based Set-to-s
 
 ### data
 
-Please download MIMIC3 from the official website.
+Please download [MIMIC3 dataset](https://physionet.org/content/mimiciii/1.4/) 
 
 ### model
 
